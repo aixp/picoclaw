@@ -1126,14 +1126,37 @@ func (c *TelegramChannel) handleMessages(ctx context.Context, messages []*telego
 	isMentioned := false
 	if message.Chat.Type != "private" {
 		isMentioned = c.isBotMentioned(message)
+		/*
 		if isMentioned {
 			content = c.stripBotMention(content)
 		}
+		*/
 		respond, cleaned := c.ShouldRespondInGroup(isMentioned, content)
 		if !respond {
 			return nil
 		}
-		content = cleaned
+
+		var nameParts []string
+		if user.FirstName != "" {
+			nameParts = append(nameParts, user.FirstName)
+		}
+		if user.LastName != "" {
+			nameParts = append(nameParts, user.LastName)
+		}
+		/*
+		if user.Username != "" {
+			nameParts = append(nameParts, user.Username)
+		}
+		*/
+
+		if strings.HasPrefix(cleaned, "/") {
+			content = cleaned // allow bot control commands
+		} else {
+			content = fmt.Sprintf("[%s, channel=telegram, chat_id=%s]: %s",
+				strings.Join(nameParts, " "),
+				sender.PlatformID,
+				cleaned)
+		}
 	}
 
 	if message.ReplyToMessage != nil {

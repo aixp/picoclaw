@@ -31,6 +31,6 @@ COPY --from=builder /src/build/picoclaw /usr/local/bin/picoclaw
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# RUN python3 -m venv ~/venv && . ~/venv/bin/activate && pip install --no-cache-dir -U pip && pip install --no-cache-dir -U pillow meilisearch fastmcp
+# RUN python3 -m venv ~/venv && . ~/venv/bin/activate && pip install --no-cache-dir -U pip && pip install --no-cache-dir -U pillow meilisearch fastmcp jq
 
 ENTRYPOINT ["/entrypoint.sh"]

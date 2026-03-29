@@ -20,15 +20,17 @@ RUN make build
 # ============================================================
 FROM alpine:3.23
 
-RUN apk add --no-cache ca-certificates tzdata curl
+RUN apk add --no-cache ca-certificates tzdata curl python3 py3-pip
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget -q --spider http://localhost:18790/health || exit 1
+#HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+#  CMD wget -q --spider http://localhost:18790/health || exit 1
 
 # Copy binary and first-run entrypoint (same as release image).
 COPY --from=builder /src/build/picoclaw /usr/local/bin/picoclaw
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+# RUN python3 -m venv ~/venv && . ~/venv/bin/activate && pip install --no-cache-dir -U pip && pip install --no-cache-dir -U pillow meilisearch fastmcp
 
 ENTRYPOINT ["/entrypoint.sh"]

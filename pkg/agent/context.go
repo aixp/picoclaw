@@ -146,7 +146,7 @@ func (cb *ContextBuilder) promptRegistryOrDefault() *PromptRegistry {
 
 func (cb *ContextBuilder) getIdentity(includeToolUseRule bool) string {
 	workspacePath, _ := filepath.Abs(filepath.Join(cb.workspace))
-	version := config.FormatVersion()
+	// version := config.FormatVersion()
 	rules := []string{}
 	if includeToolUseRule {
 		rules = append(rules, toolUseSystemPromptRule())
@@ -174,9 +174,7 @@ func (cb *ContextBuilder) getIdentity(includeToolUseRule bool) string {
 	}
 
 	return fmt.Sprintf(
-		`# picoclaw 🦞 (%s)
-
-You are picoclaw, a helpful AI assistant.
+		`You are a helpful AI assistant.
 
 ## Workspace
 Your workspace is at: %s

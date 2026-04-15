@@ -700,11 +700,9 @@ func (c *TelegramChannel) handleMessage(ctx context.Context, message *telego.Mes
 	isMentioned := false
 	if message.Chat.Type != "private" {
 		isMentioned = c.isBotMentioned(message)
-		/*
 		if isMentioned {
 			content = c.stripBotMention(content)
 		}
-		*/
 		respond, cleaned := c.ShouldRespondInGroup(isMentioned, content)
 		if !respond {
 			return nil

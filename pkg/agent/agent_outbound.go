@@ -49,6 +49,14 @@ func (al *AgentLoop) PublishResponseIfNeeded(ctx context.Context, channel, chatI
 		)
 		return
 	}
+	if response == "Error processing message: hook requested turn abort" {
+		logger.DebugCF(
+			"agent",
+			"Skipped outbound (Error processing message: hook requested turn abort)",
+			map[string]any{"channel": channel},
+		)
+		return
+	}
 
 	alreadySentToSameChat := false
 	defaultAgent := al.GetRegistry().GetDefaultAgent()

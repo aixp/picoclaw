@@ -186,7 +186,7 @@ Your workspace is at: %s
 
 %s
 `,
-		version,
+		// version,
 		workspacePath,
 		workspacePath,
 		workspacePath,
